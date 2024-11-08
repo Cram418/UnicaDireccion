@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://bts6of622fum5"]
+
+[ext_resource type="Texture2D" uid="uid://b3riqkhc15ctv" path="res://sprites/letras/a.png" id="1_d1tid"]
+[ext_resource type="Script" path="res://maquina estados/state_machine.gd" id="1_ihwuk"]
+[ext_resource type="Script" path="res://maquina estados/test/test_sptire_ME.gd" id="2_rmwes"]
+[ext_resource type="Script" path="res://maquina estados/test/test_animation_ME.gd" id="3_8hsp3"]
+[ext_resource type="Texture2D" uid="uid://153t7772wvow" path="res://sprites/letras/b.png" id="5_kxvdj"]
+[ext_resource type="SpriteFrames" uid="uid://bqodhqndy2kpe" path="res://sprites/letras/test_anim_A_to_B.tres" id="5_qrwci"]
+
+[node name="Test maquina estados" type="Node2D"]
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("default_state")]
+script = ExtResource("1_ihwuk")
+default_state = NodePath("Test A")
+
+[node name="Test A" type="Node" parent="StateMachine" node_paths=PackedStringArray("sprite", "next_state")]
+script = ExtResource("2_rmwes")
+sprite = NodePath("../../A")
+next_state = NodePath("../Test Anim")
+
+[node name="Test B" type="Node" parent="StateMachine" node_paths=PackedStringArray("sprite", "next_state")]
+script = ExtResource("2_rmwes")
+sprite = NodePath("../../B")
+next_state = NodePath("../Test A")
+
+[node name="Test Anim" type="Node" parent="StateMachine" node_paths=PackedStringArray("animation")]
+script = ExtResource("3_8hsp3")
+animation = NodePath("../../A - B")
+
+[node name="A" type="Sprite2D" parent="."]
+position = Vector2(114, 116)
+texture = ExtResource("1_d1tid")
+
+[node name="A - B" type="AnimatedSprite2D" parent="."]
+position = Vector2(114, 116)
+sprite_frames = ExtResource("5_qrwci")
+frame = 1
+frame_progress = 0.223353
+
+[node name="B" type="Sprite2D" parent="."]
+position = Vector2(114, 116)
+texture = ExtResource("5_kxvdj")
