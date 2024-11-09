@@ -1,17 +1,75 @@
-[gd_scene load_steps=6 format=3 uid="uid://bjv0i4178k02x"]
+[gd_scene load_steps=27 format=3 uid="uid://bjv0i4178k02x"]
 
+[ext_resource type="Texture2D" uid="uid://de4fmagfh2m75" path="res://sprites/pared/pared.png" id="1_hwrid"]
 [ext_resource type="Script" path="res://sistema_dias.gd" id="1_rdquj"]
+[ext_resource type="Script" path="res://maquina estados/state_machine.gd" id="2_si23h"]
 [ext_resource type="PackedScene" uid="uid://pjkhgjrwvla2" path="res://Nodos/player.tscn" id="2_wmass"]
+[ext_resource type="Script" path="res://scripts/pared/pared.gd" id="3_muurp"]
+[ext_resource type="Texture2D" uid="uid://cdt8jc07phbed" path="res://sprites/estrella.png" id="4_340gv"]
+[ext_resource type="Script" path="res://scripts/pared/pared_rota.gd" id="4_how3u"]
+[ext_resource type="Texture2D" uid="uid://h0nxu5s7br41" path="res://sprites/pared/pared_rota.png" id="5_5sn78"]
+[ext_resource type="Script" path="res://scripts/pared/pared_rota_agua.gd" id="6_pgjl8"]
+[ext_resource type="PackedScene" uid="uid://burpqr1nrai1f" path="res://Nodos/cubo.tscn" id="6_si8nu"]
+[ext_resource type="Texture2D" uid="uid://146wjr8g44fa" path="res://sprites/pared/pared_rota_agua.png" id="7_c6xuh"]
 [ext_resource type="Texture2D" uid="uid://bh8la8tjd5ve8" path="res://sprites/black.png" id="7_dyuhm"]
+[ext_resource type="Script" path="res://scripts/arbol/arbol_1.gd" id="13_w3hne"]
+[ext_resource type="Texture2D" uid="uid://do3jxhn66b1vp" path="res://sprites/arbol/arbol_1.png" id="14_0gvkp"]
+[ext_resource type="Script" path="res://scripts/arbol/arbol_2.gd" id="14_gefta"]
+[ext_resource type="Texture2D" uid="uid://db8umv8b67f1e" path="res://sprites/arbol/arbol_2.png" id="15_icgd7"]
+[ext_resource type="Script" path="res://scripts/arbol/arbol_3.gd" id="15_nbqum"]
+[ext_resource type="Script" path="res://scripts/arbol/arbol_4.gd" id="16_1bjhd"]
+[ext_resource type="Texture2D" uid="uid://dp3qnrf4shbb0" path="res://sprites/arbol/arbol_3.png" id="17_h1lf0"]
+[ext_resource type="Script" path="res://scripts/arbol/arbol_muerto.gd" id="17_nq5pb"]
+[ext_resource type="Texture2D" uid="uid://cvvqdyynn17tp" path="res://sprites/arbol/arbol_4.png" id="19_kktke"]
+[ext_resource type="Texture2D" uid="uid://gcrliv48hxf4" path="res://sprites/arbol/arbol_muerto.png" id="21_rx085"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tqgap"]
-size = Vector2(256, 17.274)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0jy53"]
+size = Vector2(119.476, 39.3259)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_octqf"]
 size = Vector2(192.822, 13.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jnob0"]
+size = Vector2(256, 254)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_084x2"]
+size = Vector2(60, 57)
+
 [node name="Main" type="Node2D"]
 position = Vector2(264, 352)
+
+[node name="Wall" type="Node2D" parent="."]
+position = Vector2(252, 170)
+scale = Vector2(2.67, 2.67)
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall"]
+texture = ExtResource("1_hwrid")
+
+[node name="StateMachine" type="Node" parent="Wall" node_paths=PackedStringArray("default_state")]
+script = ExtResource("2_si23h")
+default_state = NodePath("Pared")
+
+[node name="Pared" type="Node" parent="Wall/StateMachine" node_paths=PackedStringArray("sistema_dias", "area_pared")]
+script = ExtResource("3_muurp")
+sistema_dias = NodePath("../../../SistemaDias")
+area_pared = NodePath("../../Area2D")
+
+[node name="Pared Rota" type="Node" parent="Wall/StateMachine" node_paths=PackedStringArray("sprite2D")]
+script = ExtResource("4_how3u")
+sprite2D = NodePath("../../Sprite2D")
+texture = ExtResource("5_5sn78")
+
+[node name="Pared Rota Agua" type="Node" parent="Wall/StateMachine" node_paths=PackedStringArray("arbol_estado_2", "sprite2D")]
+script = ExtResource("6_pgjl8")
+arbol_estado_2 = NodePath("../../../Node2D/StateMachine/Estado 2")
+sprite2D = NodePath("../../Sprite2D")
+texture = ExtResource("7_c6xuh")
+
+[node name="Area2D" type="Area2D" parent="Wall"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall/Area2D"]
+position = Vector2(0.187271, 24.5318)
+shape = SubResource("RectangleShape2D_0jy53")
 
 [node name="SistemaDias" type="Node" parent="."]
 script = ExtResource("1_rdquj")
@@ -25,20 +83,7 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="Player" parent="." instance=ExtResource("2_wmass")]
-position = Vector2(-134, 123)
-
-[node name="Box" type="RigidBody2D" parent="."]
-position = Vector2(268, 221)
-
-[node name="Sprite2D" type="Sprite2D" parent="Box"]
-position = Vector2(-1, 0)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_dyuhm")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Box"]
-position = Vector2(-1, -0.200012)
-scale = Vector2(0.5, 7.41)
-shape = SubResource("RectangleShape2D_tqgap")
+position = Vector2(-181, 202)
 
 [node name="Terrain" type="Node" parent="."]
 
@@ -70,3 +115,79 @@ scale = Vector2(30.52, 10)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Wall2/StaticBody2D"]
 shape = SubResource("RectangleShape2D_octqf")
+
+[node name="Ground2" type="Node2D" parent="Terrain"]
+position = Vector2(1156, 426)
+scale = Vector2(1.98, 1.98)
+
+[node name="Sprite2D" type="Sprite2D" parent="Terrain/Ground2"]
+texture = ExtResource("7_dyuhm")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Terrain/Ground2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ground2/StaticBody2D"]
+position = Vector2(1, -1)
+shape = SubResource("RectangleShape2D_jnob0")
+
+[node name="Estrella" type="Node2D" parent="."]
+position = Vector2(802, -258)
+
+[node name="Sprite2D" type="Sprite2D" parent="Estrella"]
+texture = ExtResource("4_340gv")
+
+[node name="Area2D" type="Area2D" parent="Estrella"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Estrella/Area2D"]
+position = Vector2(-1, 0.5)
+shape = SubResource("RectangleShape2D_084x2")
+
+[node name="Cubo" parent="." instance=ExtResource("6_si8nu")]
+position = Vector2(-20, 213)
+metadata/Tag = &"Cubo"
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(-40, 3)
+
+[node name="StateMachine" type="Node" parent="Node2D" node_paths=PackedStringArray("default_state")]
+script = ExtResource("2_si23h")
+default_state = NodePath("Estado 1")
+
+[node name="Estado 1" type="Node" parent="Node2D/StateMachine" node_paths=PackedStringArray("sistema_dias", "body_arbol_sano")]
+script = ExtResource("13_w3hne")
+sistema_dias = NodePath("../../../SistemaDias")
+body_arbol_sano = NodePath("../../Body Arbol Sano")
+
+[node name="Estado 2" type="Node" parent="Node2D/StateMachine" node_paths=PackedStringArray("sistema_dias", "sprite2D")]
+script = ExtResource("14_gefta")
+sistema_dias = NodePath("../../../SistemaDias")
+sprite2D = NodePath("../../Sprite2D")
+texture = ExtResource("15_icgd7")
+
+[node name="Estado 3" type="Node" parent="Node2D/StateMachine" node_paths=PackedStringArray("sistema_dias", "sprite2D")]
+script = ExtResource("15_nbqum")
+sistema_dias = NodePath("../../../SistemaDias")
+sprite2D = NodePath("../../Sprite2D")
+texture = ExtResource("17_h1lf0")
+
+[node name="Estado 4" type="Node" parent="Node2D/StateMachine" node_paths=PackedStringArray("body_arbol_sano", "sprite2D")]
+script = ExtResource("16_1bjhd")
+body_arbol_sano = NodePath("../../Body Arbol Sano")
+sprite2D = NodePath("../../Sprite2D")
+texture = ExtResource("19_kktke")
+
+[node name="Estado Muerto" type="Node" parent="Node2D/StateMachine" node_paths=PackedStringArray("sprite2D")]
+script = ExtResource("17_nq5pb")
+sprite2D = NodePath("../../Sprite2D")
+texture = ExtResource("21_rx085")
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+position = Vector2(562, 127)
+scale = Vector2(1.34964, 1.34964)
+texture = ExtResource("14_0gvkp")
+
+[node name="Body Arbol Sano" type="StaticBody2D" parent="Node2D"]
+position = Vector2(570, 153)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D/Body Arbol Sano"]
+position = Vector2(0, 5)
+polygon = PackedVector2Array(-114, -43, 104, -216, 104, -9, 98, 126, -108, 128)

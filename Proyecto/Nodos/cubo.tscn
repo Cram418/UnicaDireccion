@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://burpqr1nrai1f"]
+
+[ext_resource type="Texture2D" uid="uid://wd5hr1btd15p" path="res://sprites/cubo.png" id="1_xetr1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i8lk1"]
+size = Vector2(160, 168)
+
+[node name="Cubo" type="RigidBody2D"]
+position = Vector2(131, 202)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-4, -3)
+shape = SubResource("RectangleShape2D_i8lk1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2.465, 2.465)
+texture = ExtResource("1_xetr1")

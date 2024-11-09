@@ -49,5 +49,11 @@ func actualizar_tiempo_texto():
 
 func _process(delta):
 	# Presiona la tecla para adelantar el tiempo (por ejemplo, la tecla "Space")
-	if Input.is_action_just_pressed("ui_accept"):
-		avanzar_tiempo(60)  # Avanza una hora completa
+	if Input.is_action_pressed("ui_accept"):
+		avanzar_tiempo(10)  # Avanza una hora completa
+
+
+func get_dia() -> int:
+	return dia
+func get_hora() -> int:
+	return hora
