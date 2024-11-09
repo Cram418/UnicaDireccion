@@ -10,7 +10,7 @@ size = Vector2(256, 17.274)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_octqf"]
 size = Vector2(192.822, 13.5)
 
-[node name="Main" type="Node2D"]
+[node name="node_2d" type="Node2D"]
 position = Vector2(264, 352)
 
 [node name="SistemaDias" type="Node" parent="."]
