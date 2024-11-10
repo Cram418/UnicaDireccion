@@ -1,0 +1,72 @@
+[gd_scene load_steps=6 format=3 uid="uid://bjv0i4178k02x"]
+
+[ext_resource type="Script" path="res://Player/Scripts/sistema_dias.gd" id="1_svqoq"]
+[ext_resource type="PackedScene" uid="uid://pjkhgjrwvla2" path="res://Nodos/player.tscn" id="2_acwkr"]
+[ext_resource type="Texture2D" uid="uid://bh8la8tjd5ve8" path="res://sprites/black.png" id="3_pj000"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tqgap"]
+size = Vector2(256, 17.274)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_octqf"]
+size = Vector2(192.822, 13.5)
+
+[node name="Main" type="Node2D"]
+position = Vector2(264, 352)
+
+[node name="SistemaDias" type="Node" parent="."]
+script = ExtResource("1_svqoq")
+
+[node name="Timer" type="Timer" parent="SistemaDias"]
+
+[node name="Label" type="Label" parent="SistemaDias"]
+offset_left = 3.05176e-05
+offset_top = 3.05176e-05
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Player" parent="." instance=ExtResource("2_acwkr")]
+position = Vector2(-134, 123)
+
+[node name="Box" type="RigidBody2D" parent="."]
+position = Vector2(268, 221)
+
+[node name="Sprite2D" type="Sprite2D" parent="Box"]
+position = Vector2(-1, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_pj000")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Box"]
+position = Vector2(-1, -0.200012)
+scale = Vector2(0.5, 7.41)
+shape = SubResource("RectangleShape2D_tqgap")
+
+[node name="Terrain" type="Node" parent="."]
+
+[node name="Ground" type="Node2D" parent="Terrain"]
+position = Vector2(512, 716)
+scale = Vector2(30.52, 10)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Terrain/Ground"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ground/StaticBody2D"]
+shape = SubResource("RectangleShape2D_octqf")
+
+[node name="Wall" type="Node2D" parent="Terrain"]
+position = Vector2(-69, 368)
+rotation = -1.57079
+scale = Vector2(30.52, 10)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Terrain/Wall"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Wall/StaticBody2D"]
+shape = SubResource("RectangleShape2D_octqf")
+
+[node name="Wall2" type="Node2D" parent="Terrain"]
+position = Vector2(1221, 392)
+rotation = -1.57079
+scale = Vector2(30.52, 10)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Terrain/Wall2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Wall2/StaticBody2D"]
+shape = SubResource("RectangleShape2D_octqf")
